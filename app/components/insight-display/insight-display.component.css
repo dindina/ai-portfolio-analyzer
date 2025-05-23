@@ -1,0 +1,26 @@
+
+/* Styles for InsightDisplayComponent */
+:host {
+    display: block;
+}
+
+/* Basic prose styling if not using Tailwind typography plugin or if more control is needed */
+.prose p {
+    margin-bottom: 1em;
+}
+.prose ul {
+    margin-left: 1.5em;
+    margin-bottom: 1em;
+}
+.prose li {
+    margin-bottom: 0.5em;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

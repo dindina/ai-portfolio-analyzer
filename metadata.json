@@ -1,0 +1,5 @@
+{
+  "name": "AI Portfolio Analyzer",
+  "description": "An AI-powered agent to analyze your stock/funds portfolio and generate insights using Gemini.",
+  "requestFramePermissions": []
+}

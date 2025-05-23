@@ -1,0 +1,6 @@
+
+/* AppComponent specific styles can go here */
+/* For example, if Tailwind doesn't cover a specific need for the root layout */
+:host {
+  display: block; /* Ensures the component takes up space as expected */
+}

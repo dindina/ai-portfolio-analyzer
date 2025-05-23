@@ -1,0 +1,26 @@
+<div class="bg-slate-800 p-6 rounded-lg shadow-xl animate-fadeIn">
+  <h3 class="text-xl font-semibold text-sky-400 mb-4">AI-Generated Insights</h3>
+  <div *ngIf="insights" class="prose prose-sm sm:prose lg:prose-lg xl:prose-xl prose-invert max-w-none"
+    [innerHTML]="insights">
+    <!-- Content will be rendered here. Consider using a pipe to sanitize HTML if insights can contain it -->
+    <!-- For now, assuming insights is plain text or very simple markdown-like text -->
+    <p [innerText]="insights" class="whitespace-pre-wrap"></p>
+  </div>
+
+  <div *ngIf="webSources.length > 0" class="mt-6 border-t border-slate-700 pt-4">
+    <h4 class="text-md font-semibold text-slate-300 mb-2">Data Sources (from Google Search):</h4>
+    <ul class="list-disc list-inside space-y-1">
+      <li *ngFor="let source of webSources" class="text-sm">
+        <a [href]="source.uri" target="_blank" rel="noopener noreferrer"
+          class="text-sky-400 hover:text-sky-300 hover:underline">
+          {{ source.title || source.uri }}
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<!-- Note: The 'безопасныйHTMLПайпЭтоНужноСоздатьЕслиHTML' is a placeholder.
+     If 'insights' contains HTML, you'll need to create a pipe that uses DomSanitizer.
+     For plain text, the <p [innerText]> approach is safer.
+     Using [innerHTML] directly with unsanitized data is a security risk (XSS).
+     The current Gemini service prompt asks for plain text, so [innerText] is preferred. -->

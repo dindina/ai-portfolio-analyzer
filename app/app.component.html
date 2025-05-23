@@ -1,0 +1,30 @@
+
+<div class="min-h-screen flex flex-col bg-slate-900 text-slate-100">
+  <app-header></app-header>
+
+  <main class="flex-grow container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
+    <div class="lg:w-1/3">
+      <app-portfolio-input-form (portfolioSubmit)="handlePortfolioSubmit($event)" [isLoading]="isLoading"></app-portfolio-input-form>
+    </div>
+    <div class="lg:w-2/3">
+      <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+      
+      <div *ngIf="error && !isLoading" class="bg-red-700 border border-red-900 text-red-100 px-4 py-3 rounded-lg shadow-lg" role="alert">
+        <strong class="font-bold">Error:</strong>
+        <span class="block sm:inline ml-2">{{ error }}</span>
+      </div>
+      
+      <app-insight-display *ngIf="insights && !isLoading && !error" [insights]="insights" [groundingMetadata]="groundingSources"></app-insight-display>
+      
+      <div *ngIf="!insights && !isLoading && !error" class="bg-slate-800 p-6 rounded-lg shadow-xl text-center">
+        <h3 class="text-xl font-semibold text-slate-300">Welcome to the AI Portfolio Analyzer</h3>
+        <p class="mt-2 text-slate-400">
+          Enter your portfolio assets and their target allocations on the left to get AI-powered insights.
+        </p>
+        <img src="https://picsum.photos/seed/portfolio-angular/600/300" alt="Financial Chart Placeholder" class="mt-4 rounded-lg mx-auto opacity-70" />
+      </div>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>

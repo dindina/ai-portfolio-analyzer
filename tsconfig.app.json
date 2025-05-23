@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "types": [] // Specific types for the app, e.g. "node" if using Node.js types on client. Keep empty for now.
+  },
+  "files": [
+    "main.ts",
+    "polyfills.ts" // Added polyfills.ts here
+  ],
+  "include": [
+    "**/*.d.ts"
+  ],
+  "exclude": [
+    "**/*.spec.ts"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "types": [
+      "jasmine",
+      "node" // Often useful for test environment
+    ]
+  },
+  "files": [
+    "polyfills.ts" // Added polyfills.ts here
+  ],
+  "include": [
+    "**/*.spec.ts",
+    "**/*.d.ts"
+  ]
+}

@@ -1,0 +1,9 @@
+
+/* Styles for PortfolioInputFormComponent */
+:host {
+    display: block;
+}
+/* Ensure inputs in dark mode are styled correctly if Tailwind defaults aren't enough */
+input[type="text"], input[type="number"] {
+    /* color-scheme: dark; /* This can help with native date pickers etc. in dark mode */
+}

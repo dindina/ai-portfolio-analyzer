@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+/* Tailwind utility classes are primarily used, so this might remain minimal */
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif; /* Ensure consistent font */
+}
+
+/* Additional global styling if needed */
+.clickable {
+  cursor: pointer;
+}

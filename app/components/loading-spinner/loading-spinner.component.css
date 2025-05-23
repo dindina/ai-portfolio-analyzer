@@ -1,0 +1,5 @@
+
+/* Styles for LoadingSpinnerComponent */
+:host {
+    display: block; /* Ensures the component takes up space as expected */
+}

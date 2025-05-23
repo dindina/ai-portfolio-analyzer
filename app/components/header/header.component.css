@@ -1,0 +1,5 @@
+
+/* Styles for HeaderComponent */
+:host {
+    display: block; /* Standard for component layout */
+}

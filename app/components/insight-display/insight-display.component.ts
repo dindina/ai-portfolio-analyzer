@@ -1,24 +1,39 @@
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
-import { Component, Input } from '@angular/core';
-import { Candidate, GroundingChunkWeb, PortfolioAnalysis } from '../../../types'; // Ensure correct path to types
+// Define a more specific type for your analysis result and insights if you have one
+// For example:
+// interface TickerInsight {
+//   symbol: string;
+//   riskRating?: number;
+//   growthRating?: number;
+//   analysis: string;
+// }
+
+// interface AnalysisResult {
+//   tickerInsights?: TickerInsight[];
+//   // ... other properties
+// }
 
 @Component({
   selector: 'app-insight-display',
   templateUrl: './insight-display.component.html',
-  styleUrls: ['./insight-display.component.css']
+  styleUrls: ['./insight-display.component.css'] // or .scss
 })
-export class InsightDisplayComponent {
-  @Input() analysisResult: PortfolioAnalysis | null = null;
-  @Input() groundingMetadata: Candidate['groundingMetadata'] | null = null;
+export class InsightDisplayComponent implements OnChanges {
+  @Input() analysisResult: any; // Replace 'any' with your AnalysisResult interface if available
+  @Input() groundingMetadata: any; // Assuming this is another input you might have
 
-  constructor() { }
+  public tickerExpandedState: boolean[] = [];
 
-  get webSources(): GroundingChunkWeb[] {
-    if (!this.groundingMetadata || !this.groundingMetadata.groundingChunks) {
-      return [];
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['analysisResult'] && this.analysisResult?.tickerInsights) {
+      this.tickerExpandedState = new Array(this.analysisResult.tickerInsights.length).fill(false);
     }
-    return this.groundingMetadata.groundingChunks
-      .filter(chunk => chunk.web && chunk.web.uri && chunk.web.title)
-      .map(chunk => chunk.web as GroundingChunkWeb);
+  }
+
+  toggleTicker(index: number): void {
+    if (this.tickerExpandedState[index] !== undefined) {
+      this.tickerExpandedState[index] = !this.tickerExpandedState[index];
+    }
   }
 }

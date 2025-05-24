@@ -32,21 +32,24 @@ export class PortfolioInputFormComponent implements OnInit {
   createItem(): FormGroup {
     return this.fb.group({
       id: [Date.now().toString() + Math.random().toString(36).substring(2)],
+      name: ['', Validators.required], // Added name field
       symbol: ['', Validators.required],
       allocation: [0, [Validators.required, Validators.min(0), Validators.max(100)]]
     });
   }
 
   addDefaultItems() {
-    const defaultPortfolio: PortfolioItem[] = [
-      { id: Date.now().toString(), symbol: 'AAPL', allocation: 30 },
-      { id: (Date.now() + 1).toString(), symbol: 'VOO', allocation: 40 },
-      { id: (Date.now() + 2).toString(), symbol: 'EFA', allocation: 20 },
-      { id: (Date.now() + 3).toString(), symbol: 'GBTC', allocation: 10 },
+    // Added 'name' to default items
+    const defaultPortfolio: Omit<PortfolioItem, 'id'>[] = [ // Use Omit for id as it's generated
+      { name: 'NVIDIA Corp.', symbol: 'NVDA', allocation: 35 },
+      { name: 'Alphabet Inc. (Class A)', symbol: 'GOOGL', allocation: 35 },
+      { name: 'Amazon.com Inc.', symbol: 'AMZN', allocation: 30 },
+
     ];
     defaultPortfolio.forEach(item => {
       this.items.push(this.fb.group({
-        id: [item.id],
+        id: [Date.now().toString() + Math.random().toString(36).substring(2)], // Generate ID here
+        name: [item.name, Validators.required],
         symbol: [item.symbol, Validators.required],
         allocation: [item.allocation, [Validators.required, Validators.min(0), Validators.max(100)]]
       }));

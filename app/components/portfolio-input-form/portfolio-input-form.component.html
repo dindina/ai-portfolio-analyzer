@@ -1,39 +1,41 @@
-<form [formGroup]="portfolioForm" (ngSubmit)="onSubmit()" class="space-y-6 bg-slate-800 p-6 rounded-lg shadow-xl">
+<form [formGroup]="portfolioForm" (ngSubmit)="onSubmit()" class="space-y-4 bg-slate-800 p-4 rounded-lg shadow-xl">
+
 
   <!-- Section 1: Form Header -->
   <div>
-    <h2 class="text-xl font-semibold text-sky-400 mb-6">Your Portfolio</h2>
+    <h2 class="text-lg font-semibold text-sky-400 mb-4">Your Portfolio</h2>
   </div>
 
   <!-- Section 2: Dynamic Portfolio Items -->
-  <div formArrayName="items" class="space-y-4">
+  <div formArrayName="items" class="space-y-1">
     <div *ngIf="items.controls.length === 0" class="text-center text-slate-400 py-4">
       Your portfolio is currently empty. Click "Add Asset" to get started.
     </div>
 
     <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i"
-      class="grid grid-cols-1 md:grid-cols-12 gap-x-4 gap-y-3 p-4 bg-slate-700/60 rounded-lg shadow-md">
+      class="grid grid-cols-1 md:grid-cols-12 gap-x-3 gap-y-2 p-3 bg-slate-700/60 rounded-md shadow">
       <!-- Ticker Symbol -->
       <div class="md:col-span-4">
-        <label [for]="'name-' + i" class="block text-sm font-medium text-slate-300 mb-1">Ticker Symbol</label>
+        <label [for]="'symbol-' + i" class="block text-xs font-medium text-slate-300 mb-0.5">Ticker Symbol</label>
         <input type="text" [id]="'symbol-' + i" formControlName="symbol"
-          class="w-full bg-slate-700 text-slate-100 border-slate-600 rounded-md shadow-sm p-2 focus:ring-sky-500 focus:border-sky-500 placeholder-slate-500"
+          class="w-full bg-slate-700 text-slate-100 text-sm border-slate-600 rounded shadow-sm p-1.5 focus:ring-sky-500 focus:border-sky-500 placeholder-slate-500"
           placeholder="" [readOnly]="isLoading">
         <div *ngIf="item.get('symbol')?.invalid && (item.get('symbol')?.dirty || item.get('symbol')?.touched)"
-          class="text-red-400 text-xs mt-1">Name is required.</div>
+          class="text-red-400 text-2xs mt-0.5">Name is required.</div>
       </div>
 
 
 
       <!-- Allocation % -->
       <div class="md:col-span-3">
-        <label [for]="'allocation-' + i" class="block text-sm font-medium text-slate-300 mb-1">Allocation %</label>
+        <label [for]="'allocation-' + i" class="block text-xs font-medium text-slate-300 mb-0.5">Allocation %</label>
+
         <input type="number" [id]="'allocation-' + i" formControlName="allocation"
-          class="w-full bg-slate-700 text-slate-100 border-slate-600 rounded-md shadow-sm p-2 focus:ring-sky-500 focus:border-sky-500 placeholder-slate-500"
+          class="w-full bg-slate-700 text-slate-100 text-sm border-slate-600 rounded shadow-sm p-1.5 focus:ring-sky-500 focus:border-sky-500 placeholder-slate-500"
           placeholder="e.g., 25" min="0" max="100" step="0.01" [readOnly]="isLoading">
         <div
           *ngIf="item.get('allocation')?.invalid && (item.get('allocation')?.dirty || item.get('allocation')?.touched)"
-          class="text-red-400 text-xs mt-1">
+          class="text-red-400 text-2xs mt-0.5">
           <span *ngIf="item.get('allocation')?.errors?.['required']">Required.</span>
           <span *ngIf="item.get('allocation')?.errors?.['min'] || item.get('allocation')?.errors?.['max']">Must be
             0-100.</span>
@@ -43,7 +45,7 @@
       <!-- Remove Button -->
       <div class="md:col-span-2 flex items-end">
         <button type="button" (click)="removeItem(i)" [disabled]="isLoading"
-          class="w-full text-red-400 hover:text-red-300 p-2 rounded-md hover:bg-red-700/50 disabled:opacity-50 transition-colors duration-150"
+          class="w-full text-red-400 hover:text-red-300 p-1.5 rounded-md hover:bg-red-700/50 disabled:opacity-50 transition-colors duration-150"
           [attr.aria-label]="'Remove ' + (item.get('name')?.value || 'asset ' + (i + 1))">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
             stroke="currentColor" class="w-5 h-5 mx-auto">
@@ -58,7 +60,7 @@
   <!-- Section 3: Add Asset Action -->
   <div class="pt-2">
     <button type="button" (click)="addItem()" [disabled]="isLoading"
-      class="flex items-center justify-center w-full px-4 py-2.5 border border-sky-600 hover:border-sky-500 text-sky-400 hover:text-sky-300 rounded-md shadow-sm hover:bg-sky-700/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-sky-500 disabled:opacity-50 transition-colors duration-150">
+      class="flex items-center justify-center w-full px-3 py-2 border border-sky-600 hover:border-sky-500 text-sky-400 hover:text-sky-300 text-sm rounded-md shadow-sm hover:bg-sky-700/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-sky-500 disabled:opacity-50 transition-colors duration-150">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
         class="w-5 h-5 mr-2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -68,7 +70,7 @@
   </div>
 
   <!-- Section 4: Summary and Submission -->
-  <div class="space-y-4 pt-4 border-t border-slate-700/80">
+  <div class="space-y-3 pt-3 border-t border-slate-700/80">
     <!-- Total Allocation Display -->
     <div class="flex justify-between items-center p-3 bg-slate-700/50 rounded-md">
       <span class="text-sm font-medium text-slate-300">Total Allocation:</span>
@@ -83,7 +85,7 @@
     </div>
 
     <!-- Allocation Hint -->
-    <div *ngIf="totalAllocation !== 100 && items.length > 0" class="text-xs text-center"
+    <div *ngIf="totalAllocation !== 100 && items.length > 0" class="text-2xs text-center"
       [ngClass]="{'text-yellow-400': totalAllocation < 100, 'text-red-400': totalAllocation > 100}">
       Total allocation should ideally be 100%.
     </div>
@@ -91,7 +93,8 @@
     <!-- Submit Button -->
     <button type="submit"
       [disabled]="isLoading || portfolioForm.invalid || (totalAllocation !== 100 && items.length > 0) || items.length === 0"
-      class="w-full bg-sky-600 hover:bg-sky-500 text-white font-semibold py-3 px-4 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-sky-500 disabled:opacity-60 disabled:cursor-not-allowed transition-colors duration-150">
+      class="w-full bg-sky-600 hover:bg-sky-500 text-white font-semibold py-2.5 px-3 text-sm rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-sky-500 disabled:opacity-60 disabled:cursor-not-allowed transition-colors duration-150">
+
       <span *ngIf="!isLoading" class="flex items-center justify-center">
         Analyze Portfolio
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"

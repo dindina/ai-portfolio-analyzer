@@ -1,0 +1,4 @@
+/* You can add specific styles here if needed, but Tailwind should cover most */
+.chat-message + .chat-message {
+  margin-top: 0.75rem; /* Equivalent to space-y-3 on the parent, but for direct children */
+}

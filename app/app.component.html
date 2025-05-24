@@ -1,30 +1,54 @@
-
-<div class="min-h-screen flex flex-col bg-slate-900 text-slate-100">
+<div class="min-h-screen flex flex-col bg-gray-100 text-gray-800">
   <app-header></app-header>
 
   <main class="flex-grow container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
     <div class="lg:w-1/3">
-      <app-portfolio-input-form (portfolioSubmit)="handlePortfolioSubmit($event)" [isLoading]="isLoading"></app-portfolio-input-form>
+      <app-portfolio-input-form (portfolioSubmit)="handlePortfolioSubmit($event)"
+        [isLoading]="isLoading"></app-portfolio-input-form>
     </div>
-    <div class="lg:w-2/3">
-      <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
-      
-      <div *ngIf="error && !isLoading" class="bg-red-700 border border-red-900 text-red-100 px-4 py-3 rounded-lg shadow-lg" role="alert">
-        <strong class="font-bold">Error:</strong>
-        <span class="block sm:inline ml-2">{{ error }}</span>
+    <!-- Right Panel: Now primarily for Insights -->
+    <!-- Right Panel: Column on small screens, Row on large screens (for Insights + Summary) -->
+    <div class="lg:w-2/3 flex flex-col lg:flex-row gap-4">
+      <!-- Left Column of Right Panel (Insights, Loading, Error, Welcome) -->
+      <!-- Takes most of the space on large screens, full width on small -->
+      <div class="w-full max-w-3xl mx-auto min-w-0 overflow-y-auto pr-2 space-y-4 lg:h-full">
+        <!-- lg:h-full ensures it can match height of summary if summary is taller and parent is flex row -->
+        <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+
+        <div *ngIf="error && !isLoading"
+          class="bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded-lg shadow-md" role="alert">
+          <strong class="font-bold">Error:</strong>
+          <span class="block sm:inline ml-2">{{ error }}</span>
+        </div>
+        <app-insight-display *ngIf="analysisResult && !isLoading" [analysisResult]="analysisResult"
+          [groundingMetadata]="groundingSources"
+          class="space-y-4 bg-slate-800 p-4 rounded-lg shadow-xl"></app-insight-display>
+
+        <!-- Welcome Message - Shown when no analysis, error, or loading -->
+        <div *ngIf="!analysisResult && !isLoading && !error" class="bg-slate-800 rounded-lg shadow-xl text-center">
+          <h3 class="text-lg font-semibold text-sky-400 mb-4">Welcome to the AI Portfolio Analyzer</h3>
+          <p class="text-sm text-gray-300 mb-4">
+            Enter your portfolio assets and their target allocations on the left to get AI-powered insights.
+          </p>
+        </div>
       </div>
-      
-      <app-insight-display *ngIf="insights && !isLoading && !error" [insights]="insights" [groundingMetadata]="groundingSources"></app-insight-display>
-      
-      <div *ngIf="!insights && !isLoading && !error" class="bg-slate-800 p-6 rounded-lg shadow-xl text-center">
-        <h3 class="text-xl font-semibold text-slate-300">Welcome to the AI Portfolio Analyzer</h3>
-        <p class="mt-2 text-slate-400">
-          Enter your portfolio assets and their target allocations on the left to get AI-powered insights.
-        </p>
-        <img src="https://picsum.photos/seed/portfolio-angular/600/300" alt="Financial Chart Placeholder" class="mt-4 rounded-lg mx-auto opacity-70" />
-      </div>
+
+      <!-- Right Column of Right Panel (Overall Portfolio Summary) -->
+      <!--div *ngIf="analysisResult && !isLoading && !error && analysisResult.summary"
+        class="bg-slate-700 rounded-lg shadow-lg">
+        <h3 class="ext-lg font-semibold text-sky-400 mb-4">Overall Portfolio Summary:</h3>
+        <div class="block text-xs font-medium text-slate-300">
+          {{ analysisResult.summary }}
+        </div>
+      </div-->
     </div>
   </main>
+
+  <!-- Collapsible Chat Widget - Appears after initial insights -->
+  <!-- This will be a new component you create (e.g., app-collapsible-chat-widget) -->
+  <app-collapsible-chat-widget *ngIf="analysisResult && !isLoading && !error" [chatHistory]="chatHistory"
+    [isLoading]="isChatLoading" [chatError]="chatError" (messageSent)="handleChatMessageSend($event)">
+  </app-collapsible-chat-widget>
 
   <app-footer></app-footer>
 </div>

@@ -35,18 +35,44 @@ export class GeminiService {
 
   private _buildAnalysisPrompt(items: PortfolioItem[]): string {
     const portfolioDescription = items.map(item =>
-      `- (${item.symbol}): ${item.allocation}% allocation`
+      `- - ${item.name} (${item.symbol}): ${item.allocation}% allocation`
     ).join('\n');
 
     return `
 Analyze the following investment portfolio and provide insights.
-The portfolio consists of:
+The portfolio consists of ticker symbol and its allocation:
 ${portfolioDescription}
 
-Consider factors like diversification, potential risks, sector exposure, and alignment with common investment goals (e.g., growth, income, capital preservation).
-Provide a concise summary of the analysis, highlight key observations, and suggest potential areas for improvement or consideration.
-If possible, use Google Search for up-to-date information on the assets or market conditions if relevant to the analysis.
-Present the analysis clearly.Respond with a rating based on 1 to 10 for each ticker symbol and its risk and growth prospects
+For each ticker symbol in the portfolio, provide the following information in the exact format below:
+START_TICKER_DATA
+Ticker: [SYMBOL_HERE]
+Risk Rating (1-10): [RISK_RATING_HERE]
+Growth Rating (1-10): [GROWTH_RATING_HERE]
+Analysis: [SHORT_ANALYSIS]
+END_TICKER_DATA
+
+--- SEPARATOR --- (Use this exact separator between each ticker's data. If only one ticker, this separator is not needed after its data.)
+
+After all ticker data, provide an overall summary in the following format:
+START_SUMMARY
+Overall Portfolio Summary: [YOUR_CONCISE_PORTFOLIO_SUMMARY_HERE]
+END_SUMMARY
+
+Example for one ticker:
+START_TICKER_DATA
+Ticker: AAPL
+Risk Rating (1-10): 3
+Growth Rating (1-10): 7
+Analysis: Apple shows strong growth potential due to its innovative products and market position. However, its high valuation presents some risk.
+END_TICKER_DATA
+
+--- SEPARATOR --- (Example separator if more tickers followed)
+
+START_SUMMARY
+Overall Portfolio Summary: The portfolio is well-diversified across growth and value assets, offering a balanced approach to risk and potential returns.
+END_SUMMARY
+
+Ensure all requested information is provided for each ticker.
     `;
   }
 
@@ -73,4 +99,43 @@ Present the analysis clearly.Respond with a rating based on 1 to 10 for each tic
       throw new Error('An unknown error occurred while communicating with the Gemini API.');
     }
   }
+
+  private _buildFollowUpPrompt(portfolioItems: PortfolioItem[], previousAnalysisSummary: string | null | undefined, question: string): string {
+    const portfolioDescription = portfolioItems.map(item =>
+      `- ${item.name} (${item.symbol}): ${item.allocation}% allocation`
+    ).join('\n');
+
+    let context = `The user has an investment portfolio consisting of:\n${portfolioDescription}\n\n`;
+
+    if (previousAnalysisSummary) {
+      context += `An initial analysis provided this summary: "${previousAnalysisSummary}"\n\n`;
+    } else {
+      context += `An initial analysis was performed on this portfolio.\n\n`;
+    }
+
+    context += `Now, the user has a follow-up question: "${question}"\n\n`;
+    context += `Please answer this question based on the portfolio and the context provided. Be concise and helpful.`;
+
+    return context;
+  }
+
+  async askFollowUpQuestion(portfolioItems: PortfolioItem[], previousAnalysisSummary: string | null | undefined, question: string): Promise<GenerateContentResponse> {
+    if (!this.model) {
+      console.error("Gemini AI SDK not initialized for follow-up.");
+      throw new Error("Gemini AI SDK not initialized.");
+    }
+
+    const prompt = this._buildFollowUpPrompt(portfolioItems, previousAnalysisSummary, question);
+
+    try {
+      const result = await this.model.generateContent(prompt);
+      return result.response;
+    } catch (error: any) {
+      console.error('Error asking follow-up question to Gemini:', error);
+      // It's good practice to check if the error has a message property
+      const errorMessage = error.message || 'An unknown error occurred with the AI service.';
+      throw new Error(`AI Follow-up Error: ${errorMessage}`);
+    }
+  }
+
 }

@@ -10,6 +10,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { PortfolioInputFormComponent } from './components/portfolio-input-form/portfolio-input-form.component';
 import { InsightDisplayComponent } from './components/insight-display/insight-display.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { ChatComponent } from './components/chat/chat.component';
+import { CollapsibleChatWidgetComponent } from './components/collapsible-chat-widget/collapsible-chat-widget.component';
 
 import { GeminiService } from './services/gemini.service';
 
@@ -20,7 +22,9 @@ import { GeminiService } from './services/gemini.service';
     FooterComponent,
     PortfolioInputFormComponent,
     InsightDisplayComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    ChatComponent, // Add ChatComponent to declarations,
+    CollapsibleChatWidgetComponent
   ],
   imports: [
     BrowserModule,

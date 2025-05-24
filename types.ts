@@ -1,4 +1,10 @@
 
+export interface ChatMessage {
+  sender: 'user' | 'ai';
+  text: string;
+  timestamp: Date;
+}
+
 export interface TickerInsight {
   symbol: string;
   riskRating?: number;
@@ -14,6 +20,7 @@ export interface PortfolioAnalysis {
 
 export interface PortfolioItem {
   id: string;
+  name: string;
   symbol: string;
   allocation: number;
 }

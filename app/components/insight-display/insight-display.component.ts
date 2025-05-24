@@ -1,6 +1,6 @@
 
 import { Component, Input } from '@angular/core';
-import { Candidate, GroundingChunkWeb } from '../../../types'; // Ensure correct path to types
+import { Candidate, GroundingChunkWeb, PortfolioAnalysis } from '../../../types'; // Ensure correct path to types
 
 @Component({
   selector: 'app-insight-display',
@@ -8,10 +8,10 @@ import { Candidate, GroundingChunkWeb } from '../../../types'; // Ensure correct
   styleUrls: ['./insight-display.component.css']
 })
 export class InsightDisplayComponent {
-  @Input() insights: string | null = null;
+  @Input() analysisResult: PortfolioAnalysis | null = null;
   @Input() groundingMetadata: Candidate['groundingMetadata'] | null = null;
 
-  constructor() {}
+  constructor() { }
 
   get webSources(): GroundingChunkWeb[] {
     if (!this.groundingMetadata || !this.groundingMetadata.groundingChunks) {

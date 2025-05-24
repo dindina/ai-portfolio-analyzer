@@ -1,0 +1,39 @@
+// Using Tailwind for most things, but some specific styles are easier here.
+
+.chat-widget-body {
+  // Define a max height for the chat body when expanded
+  // and allow internal scrolling if app-chat overflows.
+  height: 400px; // Adjust as needed
+  max-height: 70vh; // Max 70% of viewport height
+  overflow: hidden; // The app-chat component should handle its own internal scrolling
+  border-top: 1px solid #e2e8f0; // slate-200, for separation if header/body bg are same
+
+  // Optional: Add a transition for smooth expand/collapse
+  // This requires a bit more work if you're animating height from 0 to auto.
+  // For simplicity, this example relies on *ngIf for show/hide.
+  // For smooth height transition, you might use Angular animations.
+}
+
+// Ensure app-chat within the widget uses the full space
+::ng-deep .chat-widget-body app-chat {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+// A simple fade-in animation for the widget appearing
+.animate-fadeInUp {
+  animation: fadeInUp 0.3s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

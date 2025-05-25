@@ -4,7 +4,7 @@
 
   <!-- Section 1: Form Header -->
   <div>
-    <h2 class="text-lg font-semibold text-sky-400 mb-3">Your Portfolio</h2>
+    <h2 class="text-lg font-semibold text-sky-400 mb-3">Enter Your Portfolio</h2>
   </div>
 
   <!-- Section 2: Dynamic Portfolio Items -->
@@ -17,7 +17,7 @@
       class="grid grid-cols-5 md:grid-cols-3 gap-x-2 gap-y-1 p-2 bg-slate-700/60 rounded-md shadow">
       <!-- Ticker Symbol -->
       <div class="md:col-span-1">
-        <label [for]="'symbol-' + i" class="block text-xs font-medium text-slate-300 mb-px">Ticker Symbol</label>
+        <label [for]="'symbol-' + i" class="block text-sm font-medium text-slate-300 mb-px">Ticker</label>
         <input type="text" [id]="'symbol-' + i" formControlName="symbol"
           class="w-full bg-slate-700 text-slate-100 text-sm border-slate-600 rounded shadow-sm p-1 focus:ring-sky-500 focus:border-sky-500 placeholder-slate-500"
           placeholder="e.g., AAPL" [readOnly]="isLoading" style="text-transform: uppercase;">
@@ -29,7 +29,7 @@
 
       <!-- Allocation % -->
       <div class="md:col-span-1">
-        <label [for]="'allocation-' + i" class="block text-xs font-medium text-slate-300 mb-px">Allocation %</label>
+        <label [for]="'allocation-' + i" class="block text-sm font-medium text-slate-300 mb-px">Allocation %</label>
 
         <input type="number" [id]="'allocation-' + i" formControlName="allocation"
           class="w-full bg-slate-700 text-slate-100 text-sm border-slate-600 rounded shadow-sm p-1 focus:ring-sky-500 focus:border-sky-500 placeholder-slate-500"

@@ -1,5 +1,4 @@
 <div *ngIf="analysisResult" class="space-y-4 bg-slate-800 p-4 rounded-lg">
-  <h3 class="text-xl font-semibold text-sky-400 mb-4">AI-Generated Insights</h3>
   <div *ngIf="analysisResult.tickerInsights">
     <h3 class="text-xl font-semibold text-sky-400 mb-4">Ticker Analysis:</h3>
     <div *ngIf="analysisResult.tickerInsights.length > 0; else noTickerData" class="space-y-3">
@@ -20,14 +19,14 @@
 
         <div *ngIf="tickerExpandedState[i]" [id]="'ticker-details-' + i"
           class="p-3 border-t border-slate-500/50 animate-fadeIn">
-          <div class="space-y-0.5 text-xs text-slate-300">
+          <div class="space-y-0.5 text-sm text-slate-300">
             <p *ngIf="insight.riskRating !== undefined">
               <strong>Risk Rating:</strong> {{ insight.riskRating }}/10
             </p>
             <p *ngIf="insight.growthRating !== undefined">
               <strong>Growth Rating:</strong> {{ insight.growthRating }}/10
             </p>
-            <p class="whitespace-pre-wrap prose prose-xs prose-invert max-w-none pt-1">{{ insight.analysis }}</p>
+            <p class="whitespace-pre-wrap prose prose-xm prose-invert max-w-none pt-1">{{ insight.analysis }}</p>
           </div>
         </div>
       </div>

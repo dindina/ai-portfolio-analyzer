@@ -13,18 +13,7 @@ export class GeminiService {
   private model: GenerativeModel;
 
   constructor() {
-    // IMPORTANT: API Key handling.
-    // As per guidelines, API_KEY must be obtained exclusively from process.env.API_KEY
-    // and assumed to be pre-configured, valid, and accessible.
-    // FIX: Adhere to API key guideline, using process.env.API_KEY directly.
-    // The '!' non-null assertion is used because the guidelines state to assume the key is available and valid.
-    //if (!process.env.GOOGLE_API_KEY) {
-    // This check is a safeguard. Guidelines assume it's always present.
-    // In a real application, you might want more robust handling if this assumption could be violated.
-    console.error("CRITICAL: API_KEY environment variable is not set. The application may not function correctly.");
-    // Throwing an error here would prevent the service from being created in an invalid state.
-    // However, sticking to "assume it's pre-configured", we proceed, but the SDK will likely fail.
-    //}
+
     this.genAI = new GoogleGenerativeAI(environment.api_key);
     this.model = this.genAI.getGenerativeModel({
       model: GEMINI_MODEL_NAME,

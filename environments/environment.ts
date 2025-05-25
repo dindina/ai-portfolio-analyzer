@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  api_key: 'AIzaSyDbCPeH5lyStdekfypys6fpudiNO_U_REQ'
+  api_key: 'enter your key here'
 };
 

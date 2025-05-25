@@ -1,5 +1,5 @@
 <form [formGroup]="portfolioForm" (ngSubmit)="onSubmit()"
-  class="space-y-3 bg-slate-800 p-3 rounded-lg shadow-xl max-w-md mx-auto">
+  class="space-y-3 bg-slate-800 p-3 rounded-lg shadow-xl mx-auto">
 
 
   <!-- Section 1: Form Header -->
@@ -14,13 +14,13 @@
     </div>
 
     <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i"
-      class="grid grid-cols-1 md:grid-cols-3 gap-x-2 gap-y-1 p-2 bg-slate-700/60 rounded-md shadow">
+      class="grid grid-cols-5 md:grid-cols-3 gap-x-2 gap-y-1 p-2 bg-slate-700/60 rounded-md shadow">
       <!-- Ticker Symbol -->
       <div class="md:col-span-1">
         <label [for]="'symbol-' + i" class="block text-xs font-medium text-slate-300 mb-px">Ticker Symbol</label>
         <input type="text" [id]="'symbol-' + i" formControlName="symbol"
           class="w-full bg-slate-700 text-slate-100 text-sm border-slate-600 rounded shadow-sm p-1 focus:ring-sky-500 focus:border-sky-500 placeholder-slate-500"
-          placeholder="e.g., AAPL" [readOnly]="isLoading">
+          placeholder="e.g., AAPL" [readOnly]="isLoading" style="text-transform: uppercase;">
         <div *ngIf="item.get('symbol')?.invalid && (item.get('symbol')?.dirty || item.get('symbol')?.touched)"
           class="text-red-400 text-2xs mt-px">Symbol is required.</div>
       </div>

@@ -1,6 +1,6 @@
 
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { PortfolioItem } from '../../../types';
 
 @Component({
@@ -32,7 +32,6 @@ export class PortfolioInputFormComponent implements OnInit {
   createItem(): FormGroup {
     return this.fb.group({
       id: [Date.now().toString() + Math.random().toString(36).substring(2)],
-      name: ['', Validators.required], // Added name field
       symbol: ['', Validators.required],
       allocation: [0, [Validators.required, Validators.min(0), Validators.max(100)]]
     });
@@ -58,10 +57,14 @@ export class PortfolioInputFormComponent implements OnInit {
 
   addItem(): void {
     this.items.push(this.createItem());
+    this.portfolioForm.updateValueAndValidity();
+    this.logFormStatus('addItem');
   }
 
   removeItem(index: number): void {
     this.items.removeAt(index);
+    this.portfolioForm.updateValueAndValidity();
+    this.logFormStatus('removeItem');
   }
 
   onSubmit(): void {
@@ -79,5 +82,31 @@ export class PortfolioInputFormComponent implements OnInit {
       const allocation = control.get('allocation')?.value || 0;
       return sum + parseFloat(allocation);
     }, 0);
+  }
+  logFormStatus(context: string): void {
+    console.log(`--- Form Status (${context}) ---`);
+    console.log('portfolioForm.valid:', this.portfolioForm.valid);
+    console.log('portfolioForm.errors:', this.portfolioForm.errors);
+    console.log('portfolioForm.status:', this.portfolioForm.status);
+
+    console.log('items FormArray valid:', this.items.valid);
+    console.log('items FormArray errors:', this.items.errors);
+    console.log('items FormArray status:', this.items.status);
+
+    this.items.controls.forEach((control: AbstractControl, index: number) => {
+      const group = control as FormGroup;
+      console.log(`Item ${index} FormGroup valid:`, group.valid);
+      console.log(`Item ${index} FormGroup errors:`, group.errors);
+      console.log(`Item ${index} FormGroup status:`, group.status);
+      if (group.get('symbol')) {
+        console.log(`  Symbol (${group.get('symbol')?.value}) valid:`, group.get('symbol')?.valid);
+        console.log(`  Symbol errors:`, group.get('symbol')?.errors);
+      }
+      if (group.get('allocation')) {
+        console.log(`  Allocation (${group.get('allocation')?.value}) valid:`, group.get('allocation')?.valid);
+        console.log(`  Allocation errors:`, group.get('allocation')?.errors);
+      }
+    });
+    console.log('--------------------------');
   }
 }

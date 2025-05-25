@@ -11,4 +11,4 @@ This contains everything you need to run your app locally.
    `npm install`
 2. Set the `api_key` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
-   `npm run dev`
+   `ng serve -o`
